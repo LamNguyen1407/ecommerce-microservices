@@ -1,0 +1,11 @@
+1. su dung turborepo quan li nhieu repo
+
+    pnpm add turbo --global: cai global
+    pnpm add turbo -w: cai trong root
+
+2. su dung clerk de authenticated
+3. su dung prisma cho turborepo
+4. pnpm prisma init --datasource-provider postgresql --output ../generated/prisma
+5. pnpm prisma migrate dev : migrate
+6. pnpm prisma studio : UI DB
+

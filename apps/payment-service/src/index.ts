@@ -1,37 +1,43 @@
-import { clerkMiddleware, getAuth } from '@hono/clerk-auth'
+import { clerkMiddleware } from '@hono/clerk-auth'
 import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
-import { shouldBeUser } from './middleware/authMiddleware.js'
-import stripe from './utils/stripe.js'
+import sessionRoute from './routes/session.route'
+import { cors } from 'hono/cors'
+import webhookRoute from './routes/webhooks.route'
+
 
 const app = new Hono()
 
 app.use('*', clerkMiddleware())
+app.use('*', cors({origin: ['http://localhost:3002']}))
 
 // app.get('/test', shouldBeUser,  (c) => {
 //   return c.json({message: `Payment service authenticated`, userId: c.get('userId')})
 // })
 
-app.post('/create-stripe-product',async (c) => {
+// app.post('/create-stripe-product',async (c) => {
 
-  const res = await stripe.products.create({
-    id: '123',
-    name: "Test Product",
-    default_price_data: {
-      currency: 'usd',
-      unit_amount: 10 * 100,
-    }
-  })
-  return c.json(res)
-})
+//   const res = await stripe.products.create({
+//     id: '123',
+//     name: "Test Product",
+//     default_price_data: {
+//       currency: 'usd',
+//       unit_amount: 10 * 100,
+//     }
+//   })
+//   return c.json(res)
+// })
 
-app.get('/stripe-product-price',async (c) => {
+// app.get('/stripe-product-price',async (c) => {
 
-  const res = await stripe.prices.list({
-    product: '123',
-  })
-  return c.json(res)
-})
+//   const res = await stripe.prices.list({
+//     product: '123',
+//   })
+//   return c.json(res)
+// })
+
+app.route("/sessions", sessionRoute)
+app.route("/webhooks", webhookRoute)
 
 const start = async () => {
   try{

@@ -28,3 +28,14 @@ export const getStripeProductPrice = async (productId: number) => {
         return err;
     }
 }
+
+export const deleteStripeProduct = async (productId: number) => {
+    try{
+        const res = await stripe.products.del(productId.toString());
+        return res;
+    }
+    catch(err) {
+        console.log('Error deleting Stripe product', err);
+        return err;
+    }
+}

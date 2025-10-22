@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import {prisma, Prisma} from '@repo/product-db'
-import { SortProductEnum } from "../type/product.type";
+import { SortProductEnum } from "@repo/types"
+import { producer } from "../utils/kafka";
+import { StripeProductType } from "@repo/types";
 export const createProduct = async(req: Request, res: Response) => {
     const data: Prisma.ProductCreateInput = req.body;
 
@@ -20,6 +22,15 @@ export const createProduct = async(req: Request, res: Response) => {
         return res.status(400).json({message: 'missing images for colors', missingColors})
     }
     const product = await prisma.product.create({data})
+
+    const stripeProduct: StripeProductType = {
+        id: product.id.toString(),
+        name: product.name,
+        price: product.price
+    }
+
+    producer.send("product.created", {value: stripeProduct});
+
     res.status(201).json(product);
 }
 export const updateProduct = async(req: Request, res: Response) => {
@@ -37,6 +48,9 @@ export const deleteProduct = async(req: Request, res: Response) => {
     await prisma.product.delete({
         where: {id: Number(id)}
     })
+
+    producer.send("product.deleted", {value: Number(id)});
+
     return res.status(200).json({message: 'Product deleted successfully'});
 }
 

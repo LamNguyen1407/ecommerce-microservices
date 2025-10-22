@@ -10,4 +10,10 @@ export type StripeProductType = {
     price: number;
 }
 
+export enum SortProductEnum {
+    ASC = 'asc',
+    DESC = 'desc',
+    OLDEST = 'oldest'
+}
+
 export type CategoryType = Category

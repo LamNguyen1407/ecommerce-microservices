@@ -9,3 +9,8 @@
 5. pnpm prisma migrate dev : migrate
 6. pnpm prisma studio : UI DB
 
+7. su dung stripe
+
+7. su dung kafka
+    pnpm add kafkajs
+

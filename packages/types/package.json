@@ -8,6 +8,7 @@
     "main": "src/index.ts",
     "dependencies": {
         "@repo/product-db": "workspace:*",
+        "@repo/order-db": "workspace:*",
         "zod": "^4.1.12"
     },
     "devDependencies": {

@@ -16,7 +16,8 @@
     "@clerk/express": "^1.7.37",
     "cors": "^2.8.5",
     "express": "^5.1.0",
-    "@repo/product-db": "workspace:*"
+    "@repo/product-db": "workspace:*",
+    "@repo/kafka": "workspace:*"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
